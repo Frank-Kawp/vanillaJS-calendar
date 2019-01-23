@@ -7,15 +7,30 @@ const closeBigEventForm = document.querySelector('.close-big-form');
 const daysCells = document.querySelectorAll('td');
 const prevMonth = document.querySelector('.prev-month');
 const nextMonth = document.querySelector('.next-month');
+const rejectEventButton = document.querySelector('.reject-event');
 const currentMonthHTML = document.querySelector('.current-month');
 const currentYearHTML = document.querySelector('.current-year');
 
 let currentMonth = new Date().getMonth() + 1;
 let currentYear = new Date().getFullYear();
+let currentTD;
 
 // сформируем календарь, когда загружен HTML
 document.addEventListener('DOMContentLoaded', () => {
   createCalendar(currentYear, currentMonth);
+});
+
+// заглушка для добавления события в ячейку
+bigEventForm.addEventListener('submit', (event) => {
+  event.preventDefault();
+  bigEventForm.classList.remove('showform');
+  currentTD.classList.remove('colored-data');
+});
+
+// заглушка для очистки информации о событии
+rejectEventButton.addEventListener('click', (event) => {
+  bigEventForm.classList.remove('showform');
+  currentTD.classList.remove('colored-data');
 });
 
 // добавляем маленькую форму (событие)
@@ -38,6 +53,14 @@ table.addEventListener('click', (event) => {
 
   while (target !== table) {
     if (target.tagName === 'TD') {
+      
+      // убрать подсветку с предыдущей ячейки
+      if (currentTD && currentTD.classList.contains('colored-data')) {
+        currentTD.classList.remove('colored-data');
+      }
+
+      currentTD = target;
+      
       // Показать рядом форму
       target.classList.add('colored-data');
       showBigEeventForm(target);
@@ -51,6 +74,7 @@ table.addEventListener('click', (event) => {
 closeBigEventForm.addEventListener('click', (event) => {
   event.preventDefault();
   bigEventForm.classList.remove('showform');
+  currentTD.classList.remove('colored-data');
 });
 
 // отобразить предыдущий месяц

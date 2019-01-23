@@ -81,6 +81,10 @@ button:hover {
   margin-bottom: 20px;
 }
 
+.show-data-text {
+  width: 150px;
+  text-align: center;
+}
 .current-month,
 .current-year {
   font-size: 18px;

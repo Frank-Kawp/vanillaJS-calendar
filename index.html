@@ -23,8 +23,10 @@
 
     <div class="month-paginator">
       <button class="prev-month">&#9668;</button>
-      <span class="current-month"></span>
-      <span class="current-year"></span>
+      <div class="show-data-text">
+        <span class="current-month"></span>
+        <span class="current-year"></span>
+      </div>
       <button class="next-month">&#9658;</button>
       <button class="today">Сегодня</button>
     </div>
@@ -32,13 +34,13 @@
     <table class="calendar-table">
       <tbody>
         <tr>
-          <td>Понедельник</td>
-          <td>Вторник</td>
-          <td>Среда</td>
-          <td>Четверг</td>
-          <td>Пятница</td>
-          <td>Суббота</td>
-          <td>Воскресенье</td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
         </tr>
         <tr>
           <td></td>
@@ -86,8 +88,8 @@
     <input type="text" name="date-field" placeholder="День, месяц, год">
     <input type="text" name="members-field" placeholder="Имена участников">
     <textarea name="descript-field" placeholder="Описание"></textarea>
-    <button type="submit">Готово</button>
-    <button class="reject-event-button">Удалить</button>
+    <button class="submit-event" type="submit">Готово</button>
+    <button class="reject-event">Удалить</button>
   </form>
 
   <form class="small-event-form">
