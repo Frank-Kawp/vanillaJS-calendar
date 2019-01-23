@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="style.css">
+  <title>New Calendar</title>
+</head>
+<body>
+
+  <div class="container">
+    <div class="header">
+      <div class="header-container">
+        <div class="action-buttons">
+          <button class="add-event-button">Добавить</button>
+          <button>Обновить</button>
+        </div>
+        <div class="search">
+          <div class="search-icon"></div>
+          <input type="text" placeholder="Событие, дата или участник">
+        </div>
+      </div>
+    </div>
+
+    <div class="month-paginator">
+      <button class="prev-month">&#9668;</button>
+      <span class="current-date">Март 2013</span>
+      <button class="next-month">&#9658;</button>
+      <button class="today">Сегодня</button>
+    </div>
+
+    <table class="calendar-table">
+      <tbody>
+        <tr>
+          <td>Понедельник</td>
+          <td>Вторник</td>
+          <td>Среда</td>
+          <td>Четверг</td>
+          <td>Пятница</td>
+          <td>Суббота</td>
+          <td>Воскресенье</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <form class="event-form">
+    <a href="#" class="close close-big-form"></a>
+    <input type="text" name="event-field" placeholder="Событие">
+    <input type="text" name="date-field" placeholder="День, месяц, год">
+    <input type="text" name="members-field" placeholder="Имена участников">
+    <textarea name="descript-field" placeholder="Описание"></textarea>
+    <button type="submit">Готово</button>
+    <button class="reject-event-button">Удалить</button>
+  </form>
+
+  <form class="small-event-form">
+    <a href=# class="close close-small-form"></a>
+    <input type="text" name="event-field" placeholder="5 марта, 14:00, День рождения">
+    <button type="submit">Создать</button>
+  </form>
+  
+  <script src='script.js'></script>
+</body>
+</html>
