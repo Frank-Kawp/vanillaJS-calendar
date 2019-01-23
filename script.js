@@ -4,8 +4,21 @@ const bigEventForm = document.querySelector('.event-form');
 const showSmallEventForm = document.querySelector('.add-event-button');
 const closeSmallEventForm = document.querySelector('.close-small-form');
 const closeBigEventForm = document.querySelector('.close-big-form');
+const daysCells = document.querySelectorAll('td');
+const prevMonth = document.querySelector('.prev-month');
+const nextMonth = document.querySelector('.next-month');
+const currentMonthHTML = document.querySelector('.current-month');
+const currentYearHTML = document.querySelector('.current-year');
 
-// добавляем маленькую форму
+let currentMonth = new Date().getMonth() + 1;
+let currentYear = new Date().getFullYear();
+
+// сформируем календарь, когда загружен HTML
+document.addEventListener('DOMContentLoaded', () => {
+  createCalendar(currentYear, currentMonth);
+});
+
+// добавляем маленькую форму (событие)
 showSmallEventForm.addEventListener('click', (event) => {
   const coordsOnPage = getCoords(event.target);
   smallEventForm.style.top = coordsOnPage.top + 55 + 'px';
@@ -13,13 +26,13 @@ showSmallEventForm.addEventListener('click', (event) => {
   smallEventForm.classList.toggle('showform');
 });
 
-// скрываем маленькую форму
+// скрываем маленькую форму (событие)
 closeSmallEventForm.addEventListener('click', (event) => {
   event.preventDefault();
   smallEventForm.classList.remove('showform');
 });
 
-// Вешаем событие на ячейки, чтобы показывать форму
+// Показываем форму добавления события по клику на ячейке
 table.addEventListener('click', (event) => {
   let target = event.target;
 
@@ -34,11 +47,45 @@ table.addEventListener('click', (event) => {
   }
 });
 
-// Скрываем большую форму
+// Скрываем форму добавления события
 closeBigEventForm.addEventListener('click', (event) => {
   event.preventDefault();
   bigEventForm.classList.remove('showform');
 });
+
+// отобразить предыдущий месяц
+prevMonth.addEventListener('click', () => {
+  const oldTds = document.querySelectorAll('td');
+  const oldTdsArr = [].slice.call(oldTds);
+  oldTdsArr.forEach(day => day.innerHTML = '');
+
+  currentMonth -= 1;
+
+  if (currentMonth === 0) {
+    currentMonth = 12;
+    currentYear -= 1;
+  }
+  smallEventForm.classList.remove('showform');
+  bigEventForm.classList.remove('showform');
+  createCalendar(currentYear, currentMonth);
+});
+
+// отобразить следующий месяц
+nextMonth.addEventListener('click', () => {
+  const oldTds = document.querySelectorAll('td');
+  const oldTdsArr = [].slice.call(oldTds);
+  oldTdsArr.forEach(day => day.innerHTML = '');
+
+  currentMonth += 1;
+
+  if (currentMonth > 12) {
+    currentMonth = 0;
+    currentYear += 1;
+  }
+  smallEventForm.classList.remove('showform');
+  bigEventForm.classList.remove('showform');
+  createCalendar(currentYear, currentMonth);
+})
 
 
 // *** Вспомогательные функции ***
@@ -81,27 +128,140 @@ function showBigEeventForm(targetElement) {
   } 
 }
 
+// заполняем td's данными (начиная с текущего месяца)
+function createCalendar(year, month) {
+  let weekday = new Date(year, month - 1).getDay() - 1;
+  weekday = weekday === -1 ? 0 : weekday;
 
+  const daysInThisMonth = new Date(year, month, 0).getDate();
+  let daysInPrevMonth = new Date(year, month - 1, 0).getDate();
 
+  for (let i = 0; i < 7; i += 1) {
+    daysCells[i].innerHTML = getCurrentDay(i);
+  }
 
+  // заполнить текущий месяц.
+  for (let i = weekday, d = 1; d <= daysInThisMonth; i += 1, d += 1) {
+    if (daysCells[i] === undefined) break; // если выходим за рамки массива
 
+    if (daysCells[i].innerHTML.length > 0) {
+      daysCells[i].innerHTML += `, ${d}`;
+    } else {
+      daysCells[i].innerHTML = d;
+    }
+  }
 
+  // заполнить предыдущий месяц.
+  for (let i = weekday - 1; i >= 0; i -= 1) {
+    if (daysCells[i].innerHTML.length > 0) {
+      daysCells[i].innerHTML += `, ${daysInPrevMonth}`;
+      daysInPrevMonth -= 1;
+    } else {
+      daysCells[i].innerHTML = daysInPrevMonth; 
+      daysInPrevMonth -= 1;
+    }
+  }
 
+  // заполнить след. месяц
+  let filledDays = daysInThisMonth + weekday;
+  if (filledDays < 35) {
+    for (let i = filledDays, d = 1; i < 35; i += 1, d += 1) {
+      daysCells[i].innerHTML = d;
+    }
+  }
 
+  currentYearHTML.innerHTML = currentYear;
+  currentMonthHTML.innerHTML = getMonth(currentMonth);
+}
 
+// Заполнитель дней недели
+function getCurrentDay(num) {
+  switch (num) {
+    case 0:
+      return 'Понедельник';
+      break;
+    
+    case 1:
+      return 'Вторник';
+      break;
 
+    case 2:
+      return 'Среда';
+      break;
 
+    case 3:
+      return 'Четверг';
+      break;
 
+    case 4:
+      return 'Пятница';
+      break;
 
+    case 5:
+      return 'Суббота';
+      break;
+    
+    case 6:
+      return 'Воскресенье';
+      break;
 
+    default:
+      return undefined;
+  }
+}
 
-// заполнить календарь фейковыми данными
-const tds = document.querySelectorAll('td');
+// Вернуть название месяца по числу
+function getMonth(num) {
+  switch (num) {
+    case 1:
+      return 'Январь';
+      break;
+    
+    case 2:
+      return 'Февраль';
+      break;
 
-for (let i = 0; i < tds.length; i += 1) {
-  if (tds[i].innerHTML.length > 0) {
-    tds[i].innerHTML += `, ${i + 1}`;
-  } else {
-    tds[i].innerHTML = i + 1;
+    case 3:
+      return 'Март';
+      break;
+
+    case 4:
+      return 'Апрель';
+      break;
+
+    case 5:
+      return 'Май';
+      break;
+
+    case 6:
+      return 'Июнь';
+      break;
+    
+    case 7:
+      return 'Июль';
+      break;
+
+    case 8:
+      return 'Август';
+      break;
+
+    case 9:
+      return 'Сентябрь';
+      break;
+
+    case 10:
+      return 'Октябрь';
+      break;
+
+    case 11:
+      return 'Ноябрь';
+      break;
+
+    case 12:
+      return 'Декабрь';
+      break;
+
+    default:
+      return undefined;
   }
 }

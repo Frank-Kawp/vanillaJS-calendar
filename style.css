@@ -81,7 +81,8 @@ button:hover {
   margin-bottom: 20px;
 }
 
-.current-date {
+.current-month,
+.current-year {
   font-size: 18px;
   color: #000;
   margin-left: 5px;
