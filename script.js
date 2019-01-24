@@ -15,41 +15,43 @@ let currentMonth = new Date().getMonth() + 1;
 let currentYear = new Date().getFullYear();
 let currentTD;
 
-// сформируем календарь, когда загружен HTML
+
 document.addEventListener('DOMContentLoaded', () => {
   createCalendar(currentYear, currentMonth);
 });
 
-// заглушка для добавления события в ячейку
+// заглушка
 bigEventForm.addEventListener('submit', (event) => {
   event.preventDefault();
   bigEventForm.classList.remove('showform');
   currentTD.classList.remove('colored-data');
 });
 
-// заглушка для очистки информации о событии
+// заглушка
 rejectEventButton.addEventListener('click', (event) => {
   bigEventForm.classList.remove('showform');
   currentTD.classList.remove('colored-data');
 });
 
-// добавляем маленькую форму (событие)
+
 showSmallEventForm.addEventListener('click', (event) => {
+  bigEventForm.classList.remove('showform');
+
   const coordsOnPage = getCoords(event.target);
   smallEventForm.style.top = coordsOnPage.top + 55 + 'px';
   smallEventForm.style.left = coordsOnPage.left + -200 + 'px';
   smallEventForm.classList.toggle('showform');
 });
 
-// скрываем маленькую форму (событие)
 closeSmallEventForm.addEventListener('click', (event) => {
   event.preventDefault();
   smallEventForm.classList.remove('showform');
 });
 
-// Показываем форму добавления события по клику на ячейке
+
 table.addEventListener('click', (event) => {
   let target = event.target;
+  smallEventForm.classList.remove('showform');
 
   while (target !== table) {
     if (target.tagName === 'TD') {
@@ -70,14 +72,12 @@ table.addEventListener('click', (event) => {
   }
 });
 
-// Скрываем форму добавления события
 closeBigEventForm.addEventListener('click', (event) => {
   event.preventDefault();
   bigEventForm.classList.remove('showform');
   currentTD.classList.remove('colored-data');
 });
 
-// отобразить предыдущий месяц
 prevMonth.addEventListener('click', () => {
   const oldTds = document.querySelectorAll('td');
   const oldTdsArr = [].slice.call(oldTds);
@@ -94,7 +94,6 @@ prevMonth.addEventListener('click', () => {
   createCalendar(currentYear, currentMonth);
 });
 
-// отобразить следующий месяц
 nextMonth.addEventListener('click', () => {
   const oldTds = document.querySelectorAll('td');
   const oldTdsArr = [].slice.call(oldTds);
@@ -111,8 +110,6 @@ nextMonth.addEventListener('click', () => {
   createCalendar(currentYear, currentMonth);
 })
 
-
-// *** Вспомогательные функции ***
 // получить координаты элемента относительно дкумента.
 function getCoords(targetElement) {
   const box = targetElement.getBoundingClientRect();
@@ -123,8 +120,9 @@ function getCoords(targetElement) {
   }
 }
 
-// Отобразить форму рядом с ячейкой
 function showBigEeventForm(targetElement) {
+  changeTrianglePosition('left');
+
   const coordsPage = getCoords(targetElement);
   const coordsWindow = targetElement.getBoundingClientRect();
 
@@ -148,8 +146,22 @@ function showBigEeventForm(targetElement) {
   // если форма заходит правый край, меняем горизонтальную координату
   if (coordsWindow.left + targetWidth + formWidth > windowWidth) {
     // поменять положение указателя-треугольника
+    changeTrianglePosition('right');
     bigEventForm.style.left = coordsPage.left - formWidth - 215 + "px";
   } 
+}
+
+function changeTrianglePosition(position) {
+  const oldlink = document.getElementsByTagName("link").item(1);
+  const newlink = document.createElement("link");
+  newlink.setAttribute("rel", "stylesheet");
+  newlink.setAttribute("type", "text/css");
+  if (position === 'left') {
+    newlink.setAttribute("href", "triangle-left.css");
+  } else {
+    newlink.setAttribute("href", "triangle-right.css");
+  }
+  document.getElementsByTagName("head").item(0).replaceChild(newlink, oldlink);
 }
 
 // заполняем td's данными (начиная с текущего месяца)
@@ -201,7 +213,6 @@ function createCalendar(year, month) {
   currentMonthHTML.innerHTML = m[0].toUpperCase() + m.slice(1);
 }
 
-// Заполнитель дней недели
 function getCurrentDay(num) {
   switch (num) {
     case 0:

@@ -199,21 +199,6 @@ td {
   border-radius: 3px;
 }
 
-.event-form::after, .event-form::before {
-  content: '';
-  position: absolute;
-  left: -10px; bottom: 280px;
-  width: 20px; height: 20px;
-  background-color: #fff;
-  box-shadow: -6px -6px 20px -8px #000; 
-  z-index: -1; /* Прячем за основным блоком */
-  transform: rotate(-45deg); /* Поворачиваем на 45º */
-  -webkit-transform: rotate(-45deg);
- }
- .event-form::before {
-  z-index: 1; /* Накладываем поверх, чтобы скрыть следы тени */
-  box-shadow: none; /* Прячем тень */
- }
 
 .small-event-form {
   display: none;
