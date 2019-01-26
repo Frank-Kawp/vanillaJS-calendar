@@ -102,7 +102,7 @@ nextMonth.addEventListener('click', () => {
   currentMonth += 1;
 
   if (currentMonth > 12) {
-    currentMonth = 0;
+    currentMonth = 1;
     currentYear += 1;
   }
   smallEventForm.classList.remove('showform');
